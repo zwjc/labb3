@@ -1,0 +1,37 @@
+1.
+Both changes to the number
+
+TRIS(E) chooses which ports are used
+TRISECLR 31:0 Write clears selected bits in TRISE, read yields undefined value
+TRISESET 31:0 Write sets selected bits in TRISE, read yields undefined value
+
+?
+
+7:0 enligt data sheet
+
+
+2.
+IFSCLR(0) in code
+
+Uppdateras snabbt (timern går upp) goes through once but not again
+
+PR2 = (80000000 / 256) / 10; // 80 million comes from that timer2 operates at 80 MHz. After /256 / 10 we get 31250 Hz. KOLLA SLIDE 10 PRESENATION 6
+  T2CONSET = 0x70; //Setting prescale //Check family referece for timers and page 14-9
+  TMR2 = 0; //Set timer to 0 to begin with.
+  T2CONSET = 0x8000; //turn timer on. set bit 15 to 1. Check family reference for timers and page 14-9
+
+Ändra tid för uppdateringsfrekvensen, så man hinner uppdatera innan man trycker
+
+Clock is not hex, the higher you go the faster it updates, especially with hex (A to F)
+
+
+3.
+it clears
+
+it would be 1 all the time so it doesnt clear doesnt work good
+
+in the asm code vectors.S to see any interrupts, to be used
+
+those are used by user_isr, something can happen to them in the user_isr so the're saved so nothing happens, the others dont need to be saved since nothing can happen to them
+
+enable_interrupt --> IPC(2)
